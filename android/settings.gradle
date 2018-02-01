@@ -1,0 +1,3 @@
+rootProject.name = 'wfhome'
+
+include ':app'
