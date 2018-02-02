@@ -19,7 +19,11 @@
   "dependencies": {
     "antd-mobile": "2.1.5",
     "babel-plugin-import": "1.6.3",
+    "prop-types": "15.6.0",
     "react": "16.2.0",
-    "react-native": "0.52.0"
+    "react-native": "0.52.0",
+    "react-navigation": "1.0.0-beta.26",
+    "react-redux": "5.0.6",
+    "redux": "3.7.2"
   }
 }

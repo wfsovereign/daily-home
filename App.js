@@ -1,17 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'antd-mobile';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import AppWithNavigationState from './src/navigators';
+import AppReducer from './src/reducer';
 
 export default class App extends React.Component {
+  store = createStore(AppReducer);
   render() {
     return (
-      <View style={styles.container}>
-        <Text>hello world</Text>
-        <Button type="primary">antd-mobile button</Button>
-      </View>
+      <Provider store={this.store}>
+        <AppWithNavigationState />
+      </Provider>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
