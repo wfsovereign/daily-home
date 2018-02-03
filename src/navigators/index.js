@@ -5,13 +5,20 @@ import Home from '../home/home';
 import Cookbook from '../cookbook/list';
 import { connect } from 'react-redux';
 import CookbookDetail from '../cookbook/detail';
+import { ROUTES_CONFIG } from '../constants/routes';
 
 export const AppNavigator = StackNavigator({
-  cookbook: { screen: Cookbook, path: 'cookbook' },
-  home: { screen: Home, path: 'home' },
-  cookbookDetail: { screen: CookbookDetail, path: 'cookbookDetail' }
+  [ROUTES_CONFIG.HOME.name]: { screen: Home, path: ROUTES_CONFIG.HOME.path },
+  [ROUTES_CONFIG.COOKBOOK.name]: { screen: Cookbook, path: ROUTES_CONFIG.COOKBOOK.path },
+  [ROUTES_CONFIG.COOKBOOK_DETAIL.name]: {
+    screen: CookbookDetail,
+    path: ROUTES_CONFIG.COOKBOOK_DETAIL.path,
+    navigationOptions: ({ navigation }) => ({
+      title: ROUTES_CONFIG.COOKBOOK_DETAIL.title(navigation)
+    })
+  },
 }, {
-  initialRouteName: 'home',
+  initialRouteName: ROUTES_CONFIG.HOME.name,
 });
 
 class AppWithNavigationState extends React.Component {
@@ -20,35 +27,13 @@ class AppWithNavigationState extends React.Component {
     nav: PropTypes.object.isRequired,
   };
 
-  actionEventSubscribers = new Set();
-
-  addListener = (eventName, handler) => {
-    console.log('add listener');
-    // eventName === 'action' && this.actionEventSubscribers.add(handler);
-    return {
-      // remove: () => {
-      //   console.log('remove call');
-      //   this.actionEventSubscribers.delete(handler);
-      // },
-    };
-  };
-
-  componentDidUpdate(lastProps) {
-    const lastState = lastProps.nav;
-    console.log('actionEventSubscribers ', this.actionEventSubscribers);
-    // this.actionEventSubscribers.forEach(subscriber => {
-    //   subscriber({
-    //     lastState: lastProps.nav,
-    //     state: this.props.nav,
-    //     action: this.props.lastAction,
-    //   });
-    // });
-  }
-
   render() {
-    const { dispatch, nav } = this.props;
     return (
       <AppNavigator
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.nav
+        })}
       />
     );
   }

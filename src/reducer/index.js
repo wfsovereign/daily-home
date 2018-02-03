@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-import { NavigationActions } from 'react-navigation';
-
 import { AppNavigator } from '../navigators';
 
 // Start with two routes: The Main screen, with the Login screen on top.
@@ -11,32 +9,10 @@ const initialNavState = AppNavigator.router.getStateForAction(
   secondAction,
   tempNavState
 );
-
-function nav(state = {}, action) {
-  let nextState;
-  switch (action.type) {
-    case 'home':
-      // nextState = AppNavigator.router.getStateForAction(
-      //   NavigationActions.back(),
-      //   state
-      // );
-      break;
-    case 'cookbook':
-      // nextState = AppNavigator.router.getStateForAction(
-      //   NavigationActions.navigate({ routeName: 'cookbook' }),
-      //   state
-      // );
-      break;
-    default:
-      console.log('default :', action);
-      console.log('default :', state);
-      // nextState = AppNavigator.router.getStateForAction(action, state);
-      break;
-  }
-
-  // Simply return the original `state` if `nextState` is null or undefined.
-  return nextState || state;
-}
+const navReducer = (state, action) => {
+  const newState = AppNavigator.router.getStateForAction(action, state);
+  return newState || state;
+};
 
 function lastAction(state = null, action) {
   return action;
@@ -56,8 +32,7 @@ function auth(state = initialAuthState, action) {
 }
 
 const AppReducer = combineReducers({
-  lastAction,
-  nav,
+  nav: navReducer,
   // auth,
 });
 

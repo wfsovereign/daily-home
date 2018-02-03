@@ -1,23 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'antd-mobile';
+import { StyleSheet, View } from 'react-native';
+import { List } from 'antd-mobile';
+import { ROUTES_CONFIG } from '../constants/routes';
+
+const Item = List.Item;
+const Brief = Item.Brief;
 
 export default class Cookbook extends React.Component {
   static navigationOptions = {
-    title: 'Cookbook'
+    title: ROUTES_CONFIG.COOKBOOK.title
   };
 
   constructor(props) {
     super(props);
-    console.debug('cook book constructor');
   }
 
   render() {
-    console.debug('cook boox-----');
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <Text>Cookbook list</Text>
-        <Button type="primary" onClick={() => this.props.navigation.navigate('main')}>antd-mobile button</Button>
+        <List renderHeader={() => 'my cookbook list'}>
+          <Item arrow="horizontal"
+                onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧狮子头' })}}>红烧狮子头</Item>
+          <Item arrow="horizontal"
+                onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧兔子🐰' })}}>红烧兔子🐰</Item>
+        </List>
       </View>
     );
   }
@@ -26,8 +33,6 @@ export default class Cookbook extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 10,
   },
 });
