@@ -1,8 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Button, Carousel } from 'antd-mobile';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, Carousel, SearchBar, TabBar } from 'antd-mobile';
 import { ROUTES_CONFIG } from '../constants/routes';
 
+const friendIcon = require('../images/friend.png');
+const friendSelectedIcon = require('../images/friend_sel.png');
+const meIcon = require('../images/avatarSmallBlack.png');
+const meSelectedIcon = require('../images/avatarSmallBlue.png');
 
 export default class Home extends React.Component {
   static navigationOptions = {
@@ -11,32 +15,38 @@ export default class Home extends React.Component {
     tabBarLabel: 'Home',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'greenTab',
+    };
+  }
+
   onselectedIndexChange = (index) => {
     /* tslint:disable: no-console */
     console.log('change to', index);
   }
 
+  renderContent = (pageText) => {
+    return (<View style={{ flex: 1, alignItems: 'center', backgroundColor: 'white' }}>
+      <SearchBar placeholder="Search" maxLength={8}/>
+
+      <Text style={{ margin: 50 }}>{pageText}</Text>
+    </View>);
+  }
+
+  onChangeTab = (tabName) => {
+    this.setState({
+      selectedTab: tabName,
+    });
+  }
+
   render() {
-    const tabs = [
-      { title: 'First Tab' },
-      { title: 'Second Tab' },
-      { title: 'Third Tab' },
-    ];
-    const tabs2 = [
-      { title: '1st Tab' },
-      { title: '2nd Tab' },
-      { title: '3rd Tab' },
-      { title: '4th Tab' },
-      { title: '5th Tab' },
-      { title: '6th Tab' },
-      { title: '7th Tab' },
-      { title: '8th Tab' },
-      { title: '9th Tab' },
-    ];
+
     return (
       <View style={styles.container}>
-        <View style={{padding: 15}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>今日推荐</Text>
+        <View style={{ padding: 15 }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>今日推荐</Text>
         </View>
         <Carousel style={styles.wrapper}
                   autoplayTimeout={2}
@@ -69,6 +79,21 @@ export default class Home extends React.Component {
           管理菜谱，go!
         </Button>
 
+        <TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="#fff">
+          <TabBar.Item icon={friendIcon}
+                       selectedIcon={friendSelectedIcon}
+                       title="朋友"
+                       selected={this.state.selectedTab === 'greenTab'}
+                       onPress={() => this.onChangeTab('greenTab')}>
+            {this.renderContent('朋友 Tab')}
+          </TabBar.Item>
+          <TabBar.Item icon={meIcon}
+                       selectedIcon={meSelectedIcon}
+                       title="我的"
+                       selected={this.state.selectedTab === 'yellowTab'} onPress={() => this.onChangeTab('yellowTab')}>
+            {this.renderContent('我的 Tab')}
+          </TabBar.Item>
+        </TabBar>
       </View>
     );
   }
