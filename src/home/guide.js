@@ -8,11 +8,23 @@ export default class GuidePage extends React.Component {
     header: null
   }
 
+
+
   render() {
+
+    let timer = setTimeout(() => {
+      if (!timer) {
+        this.props.navigation.navigate(ROUTES_CONFIG.HOME.name)
+      }
+    }, 1000)
+
     return (
       <View style={styles.container}>
         <Text style={styles.text}>Welcome Home, My Princess</Text>
-        <Button type="primary" onClick={() => this.props.navigation.navigate(ROUTES_CONFIG.HOME.name)}>
+        <Button type="primary" onClick={() => {
+          timer = null
+          this.props.navigation.navigate(ROUTES_CONFIG.HOME.name)
+        }}>
           Home，go!
         </Button>
       </View>
