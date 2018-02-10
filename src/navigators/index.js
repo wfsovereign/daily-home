@@ -6,8 +6,10 @@ import Cookbook from '../cookbook/list';
 import { connect } from 'react-redux';
 import CookbookDetail from '../cookbook/detail';
 import { ROUTES_CONFIG } from '../constants/routes';
+import GuidePage from '../home/guide';
 
 export const AppNavigator = StackNavigator({
+  [ROUTES_CONFIG.GUIDE_PAGE.name]: { screen: GuidePage },
   [ROUTES_CONFIG.HOME.name]: { screen: Home, path: ROUTES_CONFIG.HOME.path },
   [ROUTES_CONFIG.COOKBOOK.name]: { screen: Cookbook, path: ROUTES_CONFIG.COOKBOOK.path },
   [ROUTES_CONFIG.COOKBOOK_DETAIL.name]: {
@@ -18,7 +20,7 @@ export const AppNavigator = StackNavigator({
     })
   },
 }, {
-  initialRouteName: ROUTES_CONFIG.HOME.name,
+  initialRouteName: ROUTES_CONFIG.GUIDE_PAGE.name,
 });
 
 class AppWithNavigationState extends React.Component {

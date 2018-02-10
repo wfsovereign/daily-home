@@ -6,6 +6,11 @@ export const ROUTES_CONFIG = {
     name: 'HOME',
     title: '',
   },
+  GUIDE_PAGE: {
+    path: 'guide',
+    name: 'GUIDE',
+    title: ''
+  },
   COOKBOOK: {
     path: 'cookbook',
     name: 'COOKBOOK',

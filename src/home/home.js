@@ -23,7 +23,6 @@ export default class Home extends React.Component {
   }
 
   onselectedIndexChange = (index) => {
-    /* tslint:disable: no-console */
     console.log('change to', index);
   }
 
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop: 20,
   },
   wrapper: {
     backgroundColor: '#fff',
