@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { List, TabBar, Tabs } from 'antd-mobile';
 import { ROUTES_CONFIG } from '../constants/routes';
+import { PAGE_NAMES } from '../constants/page';
 
 const friendIcon = require('../images/friend.png');
 const friendSelectedIcon = require('../images/friend_sel.png');
@@ -28,6 +29,10 @@ export default class Home extends React.Component {
     this.state = {
       selectedTab: 'greenTab',
     };
+  }
+
+  isTabSelected = (name) => {
+    return this.state.selectedTab === name
   }
 
   renderNavTabContent = (tab, index) => {
@@ -76,15 +81,16 @@ export default class Home extends React.Component {
         <TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="#fff">
           <TabBar.Item icon={friendIcon}
                        selectedIcon={friendSelectedIcon}
-                       title="首页"
-                       selected={this.state.selectedTab === 'greenTab'}
-                       onPress={() => this.onChangeTab('greenTab')}>
+                       title={PAGE_NAMES.HOME.text}
+                       selected={this.isTabSelected(PAGE_NAMES.HOME.value)}
+                       onPress={() => this.onChangeTab(PAGE_NAMES.HOME.value)}>
             {this.renderPageContent()}
           </TabBar.Item>
           <TabBar.Item icon={meIcon}
                        selectedIcon={meSelectedIcon}
-                       title="我的"
-                       selected={this.state.selectedTab === 'yellowTab'} onPress={() => this.onChangeTab('yellowTab')}>
+                       title={PAGE_NAMES.ADMIN.text}
+                       selected={this.isTabSelected(PAGE_NAMES.ADMIN.value)}
+                       onPress={() => this.onChangeTab(PAGE_NAMES.ADMIN.value)}>
             {this.renderPageContent()}
           </TabBar.Item>
         </TabBar>

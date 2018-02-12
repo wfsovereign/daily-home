@@ -11,12 +11,11 @@ export default class GuidePage extends React.Component {
 
 
   render() {
-
     let timer = setTimeout(() => {
-      if (!timer) {
+      if (timer) {
         this.props.navigation.navigate(ROUTES_CONFIG.HOME.name)
       }
-    }, 1000)
+    }, 2000)
 
     return (
       <View style={styles.container}>
