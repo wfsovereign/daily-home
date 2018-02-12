@@ -1,14 +1,11 @@
 import { AsyncStorage } from 'react-native'
-import { findIndex, remove, cloneDeep } from 'lodash'
+import { cloneDeep, findIndex, remove, find } from 'lodash'
 
 const STORE_INSTANCE_KEYS = {
   COOKBOOK: 'COOKBOOK',
   CURRENT_COOKBOOK_INDEX: 'CURRENT_COOKBOOK_INDEX',
   LOGS: 'LOGS',
-
 }
-
-export const persistentLocalStore = new PersistentLocalStore(AsyncStorage)
 
 class PersistentLocalStore {
 
@@ -16,11 +13,16 @@ class PersistentLocalStore {
     this.store = store
   }
 
-  getCookbook = () => {
-    return this.store.getItem(STORE_INSTANCE_KEYS.COOKBOOK) || []
+  getCookbook = (type) => {
+    const allCookbook = this.store.getItem(STORE_INSTANCE_KEYS.COOKBOOK) || []
+    if (!type) {
+      return allCookbook
+    }
+
+    return find(allCookbook, {type})
   }
 
-  private updateCookbook = (cookbook) => {
+  updateCookbook = (cookbook) => {
     return this.store.setItem(STORE_INSTANCE_KEYS.COOKBOOK, cookbook)
   }
 
@@ -28,7 +30,7 @@ class PersistentLocalStore {
     return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
   }
 
-  private updateCurrentCookbookIndex = (index) => {
+  updateCurrentCookbookIndex = (index) => {
     return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
   }
 
@@ -66,3 +68,5 @@ class PersistentLocalStore {
     await this.updateCookbook(cookbook)
   }
 }
+
+export const persistentLocalStore = new PersistentLocalStore(AsyncStorage)
