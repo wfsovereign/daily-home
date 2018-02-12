@@ -1,35 +1,42 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { List, TabBar, Tabs } from 'antd-mobile';
+import React from 'react'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { List, TabBar, Tabs } from 'antd-mobile'
 import { get } from 'lodash'
-import { ROUTES_CONFIG } from '../constants/routes';
-import { PAGE_NAMES } from '../constants/page';
-import CookbookAdd from '../cookbook/add';
+import { createSelector } from 'reselect'
+import { ROUTES_CONFIG } from '../constants/routes'
+import { PAGE_NAMES } from '../constants/page'
+import CookbookAdd from '../cookbook/add'
+import { cookbookSelector } from '../selector/cookbook'
 
-const friendIcon = require('../images/friend.png');
-const friendSelectedIcon = require('../images/friend_sel.png');
-const meIcon = require('../images/avatarSmallBlack.png');
-const meSelectedIcon = require('../images/avatarSmallBlue.png');
 
-const Item = List.Item;
+const friendIcon = require('../images/friend.png')
+const friendSelectedIcon = require('../images/friend_sel.png')
+const meIcon = require('../images/avatarSmallBlack.png')
+const meSelectedIcon = require('../images/avatarSmallBlue.png')
+
+const Item = List.Item
 
 const NAV_TABS = [
   { title: '早餐' },
   { title: '午餐' },
   { title: '晚餐' },
-];
+]
+
+const mapStateToProps = createSelector({
+  cookbook: cookbookSelector,
+})
 
 export default class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: get(navigation, 'state.params.title', PAGE_NAMES.HOME.value),
     headerLeft: null
-  });
+  })
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       selectedTab: PAGE_NAMES.HOME.value,
-    };
+    }
   }
 
   isTabSelected = (name) => {
@@ -41,7 +48,7 @@ export default class Home extends React.Component {
   }
 
   renderNavTabContent = (tab, index) => {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation
 
     const content = (
       <List>
@@ -54,7 +61,7 @@ export default class Home extends React.Component {
 
     return <ScrollView style={{ backgroundColor: '#fff' }}>
       {content}
-    </ScrollView>;
+    </ScrollView>
   }
 
   renderPageContent = (pageText) => {
@@ -70,7 +77,7 @@ export default class Home extends React.Component {
           </Tabs>
         </View>
       </View>
-    );
+    )
   }
 
   renderAdminPage = () => {
@@ -80,7 +87,7 @@ export default class Home extends React.Component {
   onChangeTab = (tabName) => {
     this.setState({
       selectedTab: tabName,
-    });
+    })
   }
 
   render() {
@@ -110,7 +117,7 @@ export default class Home extends React.Component {
           </TabBar.Item>
         </TabBar>
       </View>
-    );
+    )
   }
 }
 
@@ -139,4 +146,4 @@ const styles = StyleSheet.create({
     height: 150,
     width: 300
   }
-});
+})

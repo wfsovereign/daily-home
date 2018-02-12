@@ -26,6 +26,7 @@
     "react-navigation": "1.0.0-beta.26",
     "react-redux": "5.0.6",
     "redux": "3.7.2",
-    "redux-actions": "2.2.1"
+    "redux-actions": "2.2.1",
+    "reselector": "3.0.1"
   }
 }
