@@ -1,8 +1,10 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { List, TabBar, Tabs } from 'antd-mobile';
+import { get } from 'lodash'
 import { ROUTES_CONFIG } from '../constants/routes';
 import { PAGE_NAMES } from '../constants/page';
+import CookbookAdd from '../cookbook/add';
 
 const friendIcon = require('../images/friend.png');
 const friendSelectedIcon = require('../images/friend_sel.png');
@@ -18,16 +20,14 @@ const NAV_TABS = [
 ];
 
 export default class Home extends React.Component {
-  static navigationOptions = {
-    header: null,
-    title: 'Home',
-    tabBarLabel: 'Home',
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: get(navigation, 'state.params.title', PAGE_NAMES.HOME.value),
+  });
 
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'greenTab',
+      selectedTab: PAGE_NAMES.HOME.value,
     };
   }
 
@@ -35,16 +35,20 @@ export default class Home extends React.Component {
     return this.state.selectedTab === name
   }
 
+  updatePageTitle = (title) => {
+    this.props.navigation.setParams({ title })
+  }
+
   renderNavTabContent = (tab, index) => {
     const { navigate } = this.props.navigation;
 
     const content = (
-        <List>
-          <Item arrow="horizontal"
-                onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧狮子头' })}}>红烧狮子头</Item>
-          <Item arrow="horizontal"
-                onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧兔子🐰' })}}>红烧兔子🐰</Item>
-        </List>
+      <List>
+        <Item arrow="horizontal"
+              onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧狮子头' })}}>红烧狮子头</Item>
+        <Item arrow="horizontal"
+              onClick={() => {navigate(ROUTES_CONFIG.COOKBOOK_DETAIL.name, { name: '红烧兔子🐰' })}}>红烧兔子🐰</Item>
+      </List>
     )
 
     return <ScrollView style={{ backgroundColor: '#fff' }}>
@@ -68,6 +72,10 @@ export default class Home extends React.Component {
     );
   }
 
+  renderAdminPage = () => {
+    return (<CookbookAdd/>)
+  }
+
   onChangeTab = (tabName) => {
     this.setState({
       selectedTab: tabName,
@@ -83,15 +91,21 @@ export default class Home extends React.Component {
                        selectedIcon={friendSelectedIcon}
                        title={PAGE_NAMES.HOME.text}
                        selected={this.isTabSelected(PAGE_NAMES.HOME.value)}
-                       onPress={() => this.onChangeTab(PAGE_NAMES.HOME.value)}>
+                       onPress={() => {
+                         this.updatePageTitle(PAGE_NAMES.HOME.value)
+                         this.onChangeTab(PAGE_NAMES.HOME.value)
+                       }}>
             {this.renderPageContent()}
           </TabBar.Item>
           <TabBar.Item icon={meIcon}
                        selectedIcon={meSelectedIcon}
                        title={PAGE_NAMES.ADMIN.text}
                        selected={this.isTabSelected(PAGE_NAMES.ADMIN.value)}
-                       onPress={() => this.onChangeTab(PAGE_NAMES.ADMIN.value)}>
-            {this.renderPageContent()}
+                       onPress={() => {
+                         this.updatePageTitle(PAGE_NAMES.ADMIN.value)
+                         this.onChangeTab(PAGE_NAMES.ADMIN.value)
+                       }}>
+            {this.renderAdminPage()}
           </TabBar.Item>
         </TabBar>
       </View>
@@ -102,7 +116,6 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
     backgroundColor: '#fff',
   },
   wrapper: {
