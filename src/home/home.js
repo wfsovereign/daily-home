@@ -73,7 +73,6 @@ export default class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-
         <TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="#fff">
           <TabBar.Item icon={friendIcon}
                        selectedIcon={friendSelectedIcon}

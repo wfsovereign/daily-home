@@ -8,7 +8,7 @@ const STORE_INSTANCE_KEYS = {
 
 }
 
-export const Store = new PersistentLocalStore(AsyncStorage)
+export const persistentLocalStore = new PersistentLocalStore(AsyncStorage)
 
 class PersistentLocalStore {
 
@@ -20,7 +20,7 @@ class PersistentLocalStore {
     return this.store.getItem(STORE_INSTANCE_KEYS.COOKBOOK) || []
   }
 
-  updateCookbook = (cookbook) => {
+  private updateCookbook = (cookbook) => {
     return this.store.setItem(STORE_INSTANCE_KEYS.COOKBOOK, cookbook)
   }
 
@@ -28,7 +28,7 @@ class PersistentLocalStore {
     return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
   }
 
-  updateCurrentCookbookIndex = (index) => {
+  private updateCurrentCookbookIndex = (index) => {
     return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
   }
 
