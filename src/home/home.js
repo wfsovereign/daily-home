@@ -22,6 +22,7 @@ const NAV_TABS = [
 export default class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: get(navigation, 'state.params.title', PAGE_NAMES.HOME.value),
+    headerLeft: null
   });
 
   constructor(props) {

@@ -43,7 +43,7 @@ export default class CookbookAdd extends Component {
           extra="元"
           placeholder="有标签"
         >
-          输入框
+          名字
         </InputItem>
       </ScrollView>
     )
