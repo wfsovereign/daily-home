@@ -1,5 +1,6 @@
 export const COOKBOOK_TYPES = {
   BREAKFAST: 'BREAKFAST',
   LUNCH: 'LUNCH',
-  DINER: 'DINER'
+  DINER: 'DINER',
+  DESSERT: 'DESSERT',
 }

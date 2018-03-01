@@ -1,4 +1,4 @@
-import { createAction } from 'redux-action';
+import { createAction } from 'redux-actions';
 import { persistentLocalStore } from '../../lib/store'
 
 export const COOKBOOK_ACTION_TYPES = {

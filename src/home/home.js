@@ -6,7 +6,8 @@ import { createSelector } from 'reselect'
 import { ROUTES_CONFIG } from '../constants/routes'
 import { PAGE_NAMES } from '../constants/page'
 import CookbookAdd from '../cookbook/add'
-import { cookbookSelector } from '../selector/cookbook'
+import { getCookbookList } from '../store/cookbook/action';
+import { connect } from 'react-redux';
 
 
 const friendIcon = require('../images/friend.png')
@@ -20,13 +21,43 @@ const NAV_TABS = [
   { title: '早餐' },
   { title: '午餐' },
   { title: '晚餐' },
+  { title: '甜点' },
 ]
 
-const mapStateToProps = createSelector({
-  cookbook: cookbookSelector,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  wrapper: {
+    backgroundColor: '#fff',
+  },
+  navTab: {
+    paddingVertical: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    backgroundColor: '#ddd',
+  },
+  tabItem: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 150,
+  },
+  tabItemText: {
+    height: 150,
+    width: 300
+  }
 })
 
-export default class Home extends React.Component {
+const mapStateToProps = (state) => ({cookbook: state.cookbook.list})
+
+const mapDispatchToProps = {
+  getCookbookList,
+}
+
+ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: get(navigation, 'state.params.title', PAGE_NAMES.HOME.value),
     headerLeft: null
@@ -37,6 +68,10 @@ export default class Home extends React.Component {
     this.state = {
       selectedTab: PAGE_NAMES.HOME.value,
     }
+  }
+
+  componentDidMount() {
+    this.props.getCookbookList()
   }
 
   isTabSelected = (name) => {
@@ -91,6 +126,7 @@ export default class Home extends React.Component {
   }
 
   render() {
+    console.log('cookbook', this.props.cookbook);
 
     return (
       <View style={styles.container}>
@@ -121,29 +157,4 @@ export default class Home extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  wrapper: {
-    backgroundColor: '#fff',
-  },
-  navTab: {
-    paddingVertical: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    backgroundColor: '#ddd',
-  },
-  tabItem: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 150,
-  },
-  tabItemText: {
-    height: 150,
-    width: 300
-  }
-})
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

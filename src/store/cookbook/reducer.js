@@ -6,5 +6,10 @@ const defaultValue = {
 }
 
 export default handleActions({
-  [COOKBOOK_ACTION_TYPES.GET_COOKBOOK_LIST]: () => {}
-}, defaultValue)
+    [COOKBOOK_ACTION_TYPES.GET_COOKBOOK_LIST]: (state, action) => {
+      console.log('state: ', state);
+      console.log('action: ', action);
+      return state
+    }
+  }
+, defaultValue)
