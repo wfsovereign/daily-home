@@ -86,7 +86,7 @@ class CookbookAdd extends Component {
 
   handleTypeChange = (type) => {
     console.log('type :', type);
-    this.props.updateCookbookDetail({type: type[0]})
+    this.props.updateCookbookDetail({ type: type[0] })
   }
 
   getTypeValue = (type) => {
@@ -104,26 +104,16 @@ class CookbookAdd extends Component {
   }
 
   renderSteps = () => {
-    const {cookbook, currentStepContent} = this.props
+    const { cookbook } = this.props
     if (isEmpty(cookbook.steps)) {
-      return (
-        <List renderHeader={() => '第1步'}>
-          <TextareaItem
-            placeholder={'这里写步骤哦...'}
-            autoHeight
-            disabled
-            onChange={this.handleCurrentStepChange}
-          />
-        </List>
-      )
+      return
     }
-    let i = 1
 
     return (
       <View>
         {cookbook.steps.map((step, index) => {
           return (
-            <List renderHeader={() => `第${i++}步`} key={this.getRandomKey()}>
+            <List renderHeader={() => `第${index + 1}步`} key={this.getRandomKey()}>
               <TextareaItem
                 value={step.content}
                 autoHeight
@@ -132,22 +122,31 @@ class CookbookAdd extends Component {
             </List>
           )
         })}
-        <List renderHeader={() => `第${i}步`} key={this.getRandomKey()}>
-          <TextareaItem
-            placeholder={'这里写步骤哦...'}
-            value={currentStepContent}
-            autoHeight
-            onChange={this.handleCurrentStepChange}
-          />
-        </List>
       </View>
+    )
+  }
+
+  renderCurrentStepContent = () => {
+    const { cookbook, currentStepContent } = this.props
+    const currentStepNumber = get(cookbook, 'steps.length', 0) + 1
+
+    return (
+      <List renderHeader={() => `第${currentStepNumber}步`}>
+        <TextareaItem
+          placeholder={'这里写步骤哦...'}
+          value={currentStepContent}
+          autoHeight
+          disabled
+          onChange={this.handleCurrentStepChange}
+        />
+      </List>
     )
   }
 
 
   render() {
     console.log('render ...');
-    const {cookbook} = this.props
+    const { cookbook } = this.props
     console.log('cookbook ', cookbook);
     return (
       <ScrollView>
@@ -156,7 +155,7 @@ class CookbookAdd extends Component {
           error
           onErrorPress={() => Alert('clicked me')}
           value={cookbook.name}
-          onChange={(name) => this.props.updateCookbookDetail({name})}
+          onChange={(name) => this.props.updateCookbookDetail({ name })}
           placeholder="菜名"
         >
           名字
@@ -175,13 +174,14 @@ class CookbookAdd extends Component {
             value={cookbook.notes}
             placeholder={'这里写备注哦...'}
             autoHeight
-            onChange={(notes) => this.props.updateCookbookDetail({notes})}
+            onChange={(notes) => this.props.updateCookbookDetail({ notes })}
           />
         </List>
         <List renderHeader={() => '步骤'}>
           <View style={styles.stepsContent}>
 
             {this.renderSteps()}
+            {this.renderCurrentStepContent()}
 
             <View style={styles.stepsArea}>
               <TouchableOpacity
