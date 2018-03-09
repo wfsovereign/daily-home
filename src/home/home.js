@@ -6,9 +6,9 @@ import { createSelector } from 'reselect'
 import { ROUTES_CONFIG } from '../constants/routes'
 import { PAGE_NAMES } from '../constants/page'
 import CookbookAdd from '../cookbook/add'
-import { getCookbookList } from '../store/cookbook/action';
-import { connect } from 'react-redux';
-
+import { getCookbookList } from '../store/cookbook/action'
+import { connect } from 'react-redux'
+import { COOKBOOK_TYPES } from '../constants/cookbook'
 
 const friendIcon = require('../images/friend.png')
 const friendSelectedIcon = require('../images/friend_sel.png')
@@ -71,7 +71,7 @@ const mapDispatchToProps = {
   }
 
   componentDidMount() {
-    this.props.getCookbookList()
+    this.props.getCookbookList(COOKBOOK_TYPES.BREAKFAST)
   }
 
   isTabSelected = (name) => {
@@ -126,7 +126,7 @@ const mapDispatchToProps = {
   }
 
   render() {
-    console.log('cookbook', this.props.cookbook);
+    console.log('cookbook render', this.props.cookbook);
 
     return (
       <View style={styles.container}>

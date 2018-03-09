@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native'
-import { cloneDeep, findIndex, remove, find } from 'lodash'
+import { cloneDeep, filter, find, findIndex, remove } from 'lodash'
 
 const STORE_INSTANCE_KEYS = {
   COOKBOOK: 'COOKBOOK',
@@ -13,37 +13,41 @@ class PersistentLocalStore {
     this.store = store
   }
 
-  getCookbook = (type) => {
-    const allCookbook = this.store.getItem(STORE_INSTANCE_KEYS.COOKBOOK) || []
+  getCookbook = async (type) => {
+    const allCookbook = await this.store.getItem(STORE_INSTANCE_KEYS.COOKBOOK) || JSON.stringify([])
+    const allCookbookParsed = JSON.parse(allCookbook);
     if (!type) {
-      return allCookbook
+      return allCookbookParsed
     }
 
-    return find(allCookbook, {type})
+    return filter(allCookbookParsed, { type })
   }
 
-  updateCookbook = (cookbook) => {
-    return this.store.setItem(STORE_INSTANCE_KEYS.COOKBOOK, cookbook)
+  updateCookbook = async (cookbook) => {
+    return await this.store.setItem(STORE_INSTANCE_KEYS.COOKBOOK, JSON.stringify(cookbook))
   }
 
-  getCurrentCookbookIndex = () => {
-    return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
+  getCurrentCookbookIndex = async () => {
+    const index = await this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || '0';
+
+    return parseInt(index, 10)
   }
 
-  updateCurrentCookbookIndex = (index) => {
-    return this.store.getItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX) || 0
+  updateCurrentCookbookIndex = async (index) => {
+    return await this.store.setItem(STORE_INSTANCE_KEYS.CURRENT_COOKBOOK_INDEX, index.toString())
   }
 
-  getLogs = () => {
-    return this.store.getItem(STORE_INSTANCE_KEYS.LOGS) || []
+  getLogs = async () => {
+    return await this.store.getItem(STORE_INSTANCE_KEYS.LOGS) || JSON.stringify([])
   }
 
   addCourse = async (course) => {
     const cookbook = await this.getCookbook()
     const currentCookbookIndex = await this.getCurrentCookbookIndex()
-    course.id = currentCookbookIndex + 1
+    const index = currentCookbookIndex + 1;
+    course.id = index
     cookbook.push(course)
-    await this.updateCurrentCookbookIndex(currentCookbookIndex)
+    await this.updateCurrentCookbookIndex(index)
     await this.updateCookbook(cookbook)
   }
 

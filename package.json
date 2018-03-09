@@ -11,6 +11,7 @@
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "link": "react-native link",
     "test": "node node_modules/jest/bin/jest.js"
   },
   "jest": {
@@ -23,10 +24,14 @@
     "prop-types": "15.6.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
+    "react-native-camera-roll-picker": "1.2.3",
+    "react-native-debugger-open": "0.3.17",
+    "react-native-image-picker": "0.26.7",
     "react-navigation": "1.0.0-beta.26",
     "react-redux": "5.0.6",
     "redux": "3.7.2",
     "redux-actions": "2.2.1",
+    "redux-saga": "0.16.0",
     "reselect": "3.0.1"
   }
 }
