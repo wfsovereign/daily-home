@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import { cloneDeep, isEmpty } from 'lodash'
 import { COOKBOOK_DETAIL_TYPES } from './action';
 import { COOKBOOK_TYPES } from '../../constants/cookbook';
 
@@ -8,6 +9,7 @@ const defaultValue = {
     type: COOKBOOK_TYPES.BREAKFAST,
     steps: [],
     notes: '',
+    imageSource: { uri: '' },
   },
   currentStepContent: '',
 }
@@ -38,4 +40,5 @@ export default handleActions({
       cookbook: Object.assign(state.cookbook, payload)
     }
   },
+  [COOKBOOK_DETAIL_TYPES.SAVE_COOKBOOK_SUCCESS]: () => Object.assign({}, defaultValue),
 }, defaultValue)
